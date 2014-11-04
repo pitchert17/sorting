@@ -86,7 +86,7 @@ public class NewQuicksorter<T>
    */
   int[] partition(T pivot, T[] vals, Comparator<T> order, int lb, int ub)
   {
-    // STUB
+    
     return new int[] { lb,ub };
   } // partition
 } // NewQuicksorter<T>

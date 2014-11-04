@@ -71,6 +71,35 @@ public class SorterAnalyzer
           return vals;
         };
 
+  public static final ArrayBuilder<Integer> mostlyOrderedIntArrBuilder =
+      (length) ->
+        {
+          Integer[] vals = new Integer[length];
+          for (int i = 0; i < length; i++)
+            {
+              vals[i] = i;
+            }
+          for (int i = 0; i < length; i += 10)
+            {
+              int tmp = vals[i];
+              vals[i] = vals[i + 1];
+              vals[i + 1] = tmp;
+            }
+          return vals;
+        };
+  public static final ArrayBuilder<Integer> reverseIntArrBuilder = (length) ->
+    {
+      Integer[] vals = new Integer[length];
+      for (int i = length; i > 0; i--)
+        {       
+          int j = 0;
+          vals[j] = i;
+          j++;
+        }
+      
+      return vals;
+    };
+
   // +--------------+----------------------------------------------------
   // | Class Fields |
   // +--------------+
@@ -140,7 +169,23 @@ public class SorterAnalyzer
                                             ArrayBuilder<T> builder, int size,
                                             int repetitions)
   {
-    return new long[] { basicAnalysis(sorter, order, builder, size) };
+    long min = (long) basicAnalysis(sorter, order, builder, size);
+    long max = min;
+    long sum = min;
+    long remainder = 0;
+    for (int i = 1; i < repetitions; i++)
+      {
+        int j = (int) basicAnalysis(sorter, order, builder, size);
+        if (j < min)
+          min = j;
+        else if (j > max)
+          max = j;
+        sum += j;
+        remainder += (j % repetitions);
+      }
+    long avg = sum / repetitions + remainder;
+
+    return new long[] { min, max, avg };
   } // compoundAnalysis(Sorter<T>, ArrayBuilder<T>, int, int)
 
   /**
@@ -169,17 +214,20 @@ public class SorterAnalyzer
                "Average Time");
     pen.printf("%-16s%-16s%-16s%-16s\n", "------", "-------", "------------",
                "------------");
-    for (int b = 0; b < builders.length; b++)
+    for (int a = 0; a < sorters.length; a++)
       {
-        for (int size = SMALLEST; size <= LARGEST; size *= SCALE)
+        for (int b = 0; b < builders.length; b++)
           {
-            long[] stats =
-                compoundAnalysis(sorters[0], order, builders[b], size,
-                                 REPETITIONS);
-            pen.printf("%-16s%-16s%12d    %12d\n", sorterNames[0],
-                       builderNames[b], size, stats[0]);
-          } // for size
-      } // for builder : builders
+            for (int size = SMALLEST; size <= LARGEST; size *= SCALE)
+              {
+                long[] stats =
+                    compoundAnalysis(sorters[a], order, builders[b], size,
+                                     REPETITIONS);
+                pen.printf("%-16s%-16s%12d    %12d\n", sorterNames[a],
+                           builderNames[b], size, stats[0], stats[1], stats[2]);
+              } // for size
+          } // for builder : builders
+      }// for
   } // combinedAnalysis(PrintWRiter, Sorter<T>, String[], ...)
 
   /**

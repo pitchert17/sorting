@@ -56,7 +56,9 @@ public class InsertionSorter<T>
     int i = n;
     while ((i > 0) && (order.compare(vals[i - 1], vals[i]) > 0))
       {
-        Utils.swap(vals, i, i - 1);
+        T tmp = vals[i];
+        vals[i] = vals[i-1];
+        vals[i-1] = tmp;
         // Analysis:
         //   I1(i-1) holds, but I1(i) does not hold, because we put an
         //    an "unknown" element at position i-1.
@@ -76,4 +78,26 @@ public class InsertionSorter<T>
     // sorted (I1), the right part is sorted (I2), and the element at
     // the boundary is in the right position.
   } // insert(T[], Comparator<T>, int)
+  
+  void insert2(T[] vals, Comparator<T> order, int n)
+  {
+    for (int i = 0; i < vals.length; i++)
+      {
+        if (order.compare(vals[i],vals[i-1]) > 0)
+          {
+            i++;
+          } // if
+        else if (order.compare(vals[i],vals[i-1]) < 0)
+          {
+            T temp = vals[i];
+            int j = i;
+            while (order.compare(temp,vals[j]) < 0)
+              {
+                vals[j] = vals[j-1];
+                j--;
+              } // while
+            vals[j] = temp;
+          } // else if
+      } // for
+  } //insert2 (T[], Comparator, int)
 } // InsertionSorter<T>
