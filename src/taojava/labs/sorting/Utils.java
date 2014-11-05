@@ -134,7 +134,37 @@ class Utils
                               T[] a2, int lb2, int ub2, T[] merged, int lbm,
                               int ubm)
   {
-    // STUB
+    for (int i = lbm; i <= ubm; i++)
+      {
+        if (lb1 > ub1)
+          {
+            merged[i].equals(a2[lb2]);
+            lb2++;
+          }
+        if (lb2 > ub2)
+          {
+            merged[i].equals(a1[lb1]);
+            lb1++;
+          }
+        if (order.compare(a1[lb1], a2[lb2]) > 0)
+          {
+            merged[i].equals(a1[lb1]);
+            lb1++;
+          }
+        else if (order.compare(a1[lb1], a2[lb2]) < 0)
+          {
+            merged[i].equals(a2[lb2]);
+            lb2++;
+          }
+        else
+          {
+            merged[i].equals(a2[lb2]);
+            lb2++;
+            i++;
+            merged[i].equals(a1[lb1]);
+            lb1++;
+          }
+      }
     return merged;
   } // merge(Comparator<T>, T[], int, int, T[], int, int)
 
@@ -202,7 +232,8 @@ class Utils
    * @param order, the comparator that determines the ordering.
    * @return true if the subarray is ordered, false otherwise
    * @pre order can be applied to any two values in the array.
-   */
+   */           
+  
   public static <T> boolean sorted(T[] values, Comparator<T> order)
   {
     return sorted(values, order, 0, values.length);
@@ -226,5 +257,27 @@ class Utils
     values[i] = values[j];
     values[j] = tmp;
   } // swap(T[], int, int)
-
+  public static void main(String[] args)
+  {
+    int[] a1={}; 
+    for (int i = 0; i < 20; i++)
+      {
+      int j = 2;
+      a1[i] = j;
+      j += 2;
+      }
+    int[] a2={}; 
+    for (int i = 0; i < 20; i++)
+      {
+      int j = 1;
+      a2[i] = j;
+      j += 2;
+      }
+    
+    int[] result = new int[40];
+    //merge(Comparator<T> order, T[] a1, int lb1, int ub1,
+   // T[] a2, int lb2, int ub2, T[] merged, int lbm,
+    //int ubm)
+   // merge(StandardIntegerComparator.COMPARATOR, a1, 0, 19, a2, 0, 19, result, 0, 39);
+  }
 } // class Utils

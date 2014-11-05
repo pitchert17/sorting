@@ -19,13 +19,14 @@ public class IterativeMergeSorter<T>
   @Override
   public T[] sorti(T[] vals, Comparator<T> order)
   {
-    // STUB
+    T[] scratch = (T[]) new Object[vals.length];
     int size = 1;
     while (size < vals.length)
       {
-        // Merge neighboring subarrays of size size
-        // FILL IN!
-        // The merged subarrays are now twice as large
+       for (int i = 0; i < vals.length; i += 2*size)
+         {
+           Utils.merge(order, scratch, i, (i + size - 1), scratch, i+size, (i+(2*size)-1), vals, i, (i+(2*size)-1));
+         }
         size *= 2;
       } // while
     return vals;

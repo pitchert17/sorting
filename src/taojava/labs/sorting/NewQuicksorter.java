@@ -1,6 +1,7 @@
 package taojava.labs.sorting;
 
 import java.util.Arrays;
+import java.util.Random;
 import java.util.Comparator;
 
 /**
@@ -50,6 +51,68 @@ public class NewQuicksorter<T>
     return vals[lb];
   } // selectPivot(T[], Comparator<T>, int, int)
   
+  public class NewerQuicksorter<T>
+  extends NewQuicksorter<T>
+{
+  @Override
+  /**
+   * Select the middle element of the subarray as the pivot.
+   */
+  public T selectPivot(T[] vals, Comparator<T> order, int lb, int ub)
+  {
+    int mid = ub-lb/2;
+    return vals[mid];
+  } // selectPivot(T[], vals, Comparator<T> order, int lb, int ub)
+} // NewerQuicksorter
+
+  public class NewerQuicksorter1<T>
+  extends NewQuicksorter<T>
+{
+  @Override
+  /**
+   * Select a random element of the subarray as the pivot.
+   */
+  public T selectPivot(T[] vals, Comparator<T> order, int lb, int ub)
+  {
+    Random rand = new Random();
+    int randomNum = rand.nextInt((ub - lb) + 1) + lb;
+    return vals[randomNum];
+  } // selectPivot(T[], vals, Comparator<T> order, int lb, int ub)
+} // NewerQuicksorter
+
+  public class NewerQuicksorter2<T>
+  extends NewQuicksorter<T>
+{
+  @Override
+  /**
+   * Select the median of 3 random elements of the subarray as the pivot.
+   */
+  public T selectPivot(T[] vals, Comparator<T> order, int lb, int ub)
+  {
+    Random rand = new Random();
+    int randomNum = rand.nextInt((ub - lb) + 1) + lb;
+    int randomNum2 = rand.nextInt((ub - lb) + 1) + lb;
+    int randomNum3 = rand.nextInt((ub - lb) + 1) + lb;
+    int med;
+    if (randomNum < randomNum2 && randomNum < randomNum3 
+        && randomNum2 < randomNum3)
+      {
+        med = randomNum2;
+      }//if
+    else if (randomNum2 < randomNum && randomNum2 < randomNum3 
+        && randomNum < randomNum3)
+      {
+        med = randomNum;
+      }//else if
+    else 
+      {
+        med = randomNum3;
+      }//else
+    
+    return vals[randomNum];
+  } // selectPivot(T[], vals, Comparator<T> order, int lb, int ub)
+} // NewerQuicksorter
+ 
   /**
    * Reorganize the elements in positions [lb..ub) of vals such that
    * elements smaller than the pivot appear to the left, elements
