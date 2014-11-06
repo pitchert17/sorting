@@ -7,7 +7,9 @@ import java.util.Comparator;
  * Sort using recursive merge sort.
  * 
  * @author Samuel A. Rebelsky
- * @author Your Name Here.
+ * @author Tommy Pitcher
+ * @author Leah Greenberg
+ * @author Amanda Hinchman-Dominguez
  */
 public class MergeSorter<T>
     extends SorterBridge<T>

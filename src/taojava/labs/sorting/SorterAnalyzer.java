@@ -90,13 +90,11 @@ public class SorterAnalyzer
   public static final ArrayBuilder<Integer> reverseIntArrBuilder = (length) ->
     {
       Integer[] vals = new Integer[length];
-      for (int i = length; i > 0; i--)
-        {       
-          int j = 0;
-          vals[j] = i;
-          j++;
+      for (int i = 0; i < length; i++)
+        {
+          vals[i] = length - i;
         }
-      
+
       return vals;
     };
 
@@ -172,21 +170,38 @@ public class SorterAnalyzer
     long min = (long) basicAnalysis(sorter, order, builder, size);
     long max = min;
     long sum = min;
+    long[] results = new long[repetitions];
+    long approx = 0;
     long remainder = 0;
-    for (int i = 1; i < repetitions; i++)
+
+    for (int i = 0; i < repetitions; i++)
       {
-        int j = (int) basicAnalysis(sorter, order, builder, size);
-        if (j < min)
-          min = j;
-        else if (j > max)
-          max = j;
-        sum += j;
-        remainder += (j % repetitions);
-      }
-    long avg = sum / repetitions + remainder;
+        int result = (int) basicAnalysis(sorter, order, builder, size);
+        results[i] = result;
+        if (i == 0)
+          {
+            min = result;
+          }
+        else if (result < min)
+          {
+            min = result;
+          }
+        if (result > max)
+          {
+            max = result;
+          }
+        sum += (result / repetitions);
+        remainder += (result % repetitions);
+      } // for
+
+    long avg = remainder / repetitions;
+    remainder = remainder % repetitions;
+
+    if (Utils.sign(avg) == -(Utils.sign(remainder)))
+      avg += Utils.sign(remainder);
 
     return new long[] { min, max, avg };
-  } // compoundAnalysis(Sorter<T>, ArrayBuilder<T>, int, int)
+  }// compoundAnalysis(Sorter<T>, ArrayBuilder<T>, int, int)
 
   /**
    * Given a variety of sorters and builders, does some analysis
@@ -210,10 +225,10 @@ public class SorterAnalyzer
                                           ArrayBuilder<T> builders[],
                                           String[] builderNames)
   {
-    pen.printf("%-16s%-16s%-16s%-16s\n", "Sorter", "Builder", "Input Size",
-               "Average Time");
-    pen.printf("%-16s%-16s%-16s%-16s\n", "------", "-------", "------------",
-               "------------");
+    pen.printf("%-16s%-16s%-16s%-16s%-16s         %-16s\n", "Sorter", "Builder", "Input Size",
+               "Min Time", "Max Time", "Average Time");
+    pen.printf("%-16s%-16s%-16s%-16s%-16s         %-16s\n", "------", "-------", "------------",
+               "------------", "------------", "------------");
     for (int a = 0; a < sorters.length; a++)
       {
         for (int b = 0; b < builders.length; b++)
@@ -223,7 +238,7 @@ public class SorterAnalyzer
                 long[] stats =
                     compoundAnalysis(sorters[a], order, builders[b], size,
                                      REPETITIONS);
-                pen.printf("%-16s%-16s%12d    %12d\n", sorterNames[a],
+                pen.printf("%-16s%-16s%12d    %12d     %12d     %12d\n", sorterNames[a],
                            builderNames[b], size, stats[0], stats[1], stats[2]);
               } // for size
           } // for builder : builders

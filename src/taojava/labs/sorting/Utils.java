@@ -232,8 +232,8 @@ class Utils
    * @param order, the comparator that determines the ordering.
    * @return true if the subarray is ordered, false otherwise
    * @pre order can be applied to any two values in the array.
-   */           
-  
+   */
+
   public static <T> boolean sorted(T[] values, Comparator<T> order)
   {
     return sorted(values, order, 0, values.length);
@@ -257,27 +257,49 @@ class Utils
     values[i] = values[j];
     values[j] = tmp;
   } // swap(T[], int, int)
+
   public static void main(String[] args)
   {
-    int[] a1={}; 
+    int[] a1 = {};
     for (int i = 0; i < 20; i++)
       {
-      int j = 2;
-      a1[i] = j;
-      j += 2;
+        int j = 2;
+        a1[i] = j;
+        j += 2;
       }
-    int[] a2={}; 
+    int[] a2 = {};
     for (int i = 0; i < 20; i++)
       {
-      int j = 1;
-      a2[i] = j;
-      j += 2;
+        int j = 1;
+        a2[i] = j;
+        j += 2;
       }
-    
+
     int[] result = new int[40];
     //merge(Comparator<T> order, T[] a1, int lb1, int ub1,
-   // T[] a2, int lb2, int ub2, T[] merged, int lbm,
+    // T[] a2, int lb2, int ub2, T[] merged, int lbm,
     //int ubm)
-   // merge(StandardIntegerComparator.COMPARATOR, a1, 0, 19, a2, 0, 19, result, 0, 39);
+    // merge(StandardIntegerComparator.COMPARATOR, a1, 0, 19, a2, 0, 19, result, 0, 39);
   }
+
+  /**
+  * Get the "sign" of a long.
+  *
+  * @return
+  * -1, if the value is negative;
+  * 0, if the value 0;
+  * 1, if the value is positive.
+  *
+  * Taken from Sam's sample solution on Notes from Exam 1.
+  */
+  public static long sign(long val)
+  {
+    if (val < 0)
+      return -1;
+    else if (val > 0)
+      return 1;
+    else
+      return 0;
+  } // sign(long)
+
 } // class Utils
