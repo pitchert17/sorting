@@ -11,7 +11,7 @@ public class QuickSorterMid<T>
      */
     public T selectPivot(T[] vals, Comparator<T> order, int lb, int ub)
     {
-      int mid = ub-lb/2;
+      int mid = (ub - lb)/2;
       return vals[mid];
     } // selectPivot(T[], vals, Comparator<T> order, int lb, int ub)
   } // QuickSorterMid

@@ -32,6 +32,6 @@ public class QuickSorterMedian<T>
           med = randomNum3;
         }//else
       
-      return vals[randomNum];
+      return vals[med];
     } // selectPivot(T[], vals, Comparator<T> order, int lb, int ub)
   } // QuickSorterMedian

@@ -20,7 +20,7 @@ public class SorterAnalyzer
   /**
    * The number of repetitions we do in gathering statistics.
    */
-  static final int REPETITIONS = 12;
+  static final int REPETITIONS = 20;
 
   /**
    * The smallest array size we use.
@@ -30,7 +30,7 @@ public class SorterAnalyzer
   /**
    * The largest array size we use.
    */
-  static final int LARGEST = 40000;
+  static final int LARGEST = 80000;
 
   /**
    * The amount we scale the array size between tests.
@@ -161,7 +161,15 @@ public class SorterAnalyzer
   /**
    * Repeatedly perform basic analysis and gather statistics
    * (e.g., minimum time, maximum time, average time.
+   * 
+   * @param sorter: A Sorter of type T
+   * @param order: a comparator
+   * @param builder: an Array builder of type T
+   * @param size: int
+   * @param repetitions: how many times the new long
+   * @return: new array
    */
+   
   public static <T> long[] compoundAnalysis(Sorter<T> sorter,
                                             Comparator<T> order,
                                             ArrayBuilder<T> builder, int size,
@@ -181,15 +189,15 @@ public class SorterAnalyzer
         if (i == 0)
           {
             min = result;
-          }
+          }//if
         else if (result < min)
           {
             min = result;
-          }
+          }//else if
         if (result > max)
           {
             max = result;
-          }
+          }//if 
         sum += (result / repetitions);
         remainder += (result % repetitions);
       } // for
@@ -225,9 +233,11 @@ public class SorterAnalyzer
                                           ArrayBuilder<T> builders[],
                                           String[] builderNames)
   {
-    pen.printf("%-16s%-16s%-16s%-16s%-16s         %-16s\n", "Sorter", "Builder", "Input Size",
+    pen.printf("%-16s%-16s%-16s%-16s%-16s         %-16s\n",
+               "Sorter", "Builder", "Input Size",
                "Min Time", "Max Time", "Average Time");
-    pen.printf("%-16s%-16s%-16s%-16s%-16s         %-16s\n", "------", "-------", "------------",
+    pen.printf("%-16s%-16s%-16s%-16s%-16s         %-16s\n",
+               "------", "-------", "------------",
                "------------", "------------", "------------");
     for (int a = 0; a < sorters.length; a++)
       {
@@ -238,8 +248,10 @@ public class SorterAnalyzer
                 long[] stats =
                     compoundAnalysis(sorters[a], order, builders[b], size,
                                      REPETITIONS);
-                pen.printf("%-16s%-16s%12d    %12d     %12d     %12d\n", sorterNames[a],
-                           builderNames[b], size, stats[0], stats[1], stats[2]);
+                pen.printf("%-16s%-16s%12d    %12d     %12d     %12d\n",
+                           sorterNames[a],
+                           builderNames[b], size, stats[0], stats[1], 
+                           stats[2]);
               } // for size
           } // for builder : builders
       }// for

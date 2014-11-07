@@ -7,7 +7,9 @@ import java.util.Comparator;
  * Sort using iterative merge sort.
  * 
  * @author Samuel A. Rebelsky
- * @author Your Name Here.
+ * @author Tommy Pitcher
+ * @author Leah Greenberg
+ * @author Amanda Hinchman-Dominguez
  */
 public class IterativeMergeSorter<T>
     extends SorterBridge<T>
@@ -15,22 +17,11 @@ public class IterativeMergeSorter<T>
   /**
    * Sort vals using iterative merge sort. See the Sorter<T> interface for
    * additional details.
+   * @pre: none
+   * @param vals: an array of type T
+   * @param order: a comparator
+   * @return: vals
    */
-  /*  @Override
-    public T[] sorti(T[] vals, Comparator<T> order)
-    {
-      T[] scratch = (T[]) new Object[vals.length];
-      int size = 1;
-      while (size < vals.length)
-        {
-         for (int i = 0; i < vals.length; i += 2*size)
-           {
-             Utils.merge(order, scratch, i, (i + size - 1), scratch, i+size, (i+(2*size)-1), vals, i, (i+(2*size)-1));
-           }
-          size *= 2;
-        } // while
-      return vals;
-    } // sorti(T[], Comparator<T>)*/
 
   @Override
   public T[] sorti(T[] vals, Comparator<T> order)

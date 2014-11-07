@@ -134,28 +134,22 @@ class Utils
                               T[] a2, int lb2, int ub2, T[] merged, int lbm,
                               int ubm)
   {
-    for (int i = lbm; i <= ubm; i++)
+    int i = 0;
+
+    while (lb1 < ub1 && lb2 < ub2)
       {
-        if (lb1 > ub1)
-          {
-            merged[i].equals(a2[lb2]);
-            lb2++;
-          }
-        if (lb2 > ub2)
-          {
-            merged[i].equals(a1[lb1]);
-            lb1++;
-          }
         if (order.compare(a1[lb1], a2[lb2]) > 0)
           {
             merged[i].equals(a1[lb1]);
             lb1++;
-          }
+            i++;
+          }//if
         else if (order.compare(a1[lb1], a2[lb2]) < 0)
           {
             merged[i].equals(a2[lb2]);
             lb2++;
-          }
+            i++;
+          }//else if
         else
           {
             merged[i].equals(a2[lb2]);
@@ -163,11 +157,29 @@ class Utils
             i++;
             merged[i].equals(a1[lb1]);
             lb1++;
-          }
-      }
+            i++;
+          }//else
+      }//while
+
+    if (lb1 >= ub1)
+      {
+        for (int j = lb2; j < ub2; j++)
+          {
+            merged[i].equals(a2[lb2]);
+            i++;
+          }//for
+      }//if
+    else if (lb2 >= ub2)
+      {
+        for (int j = lb1; j < ub1; j++)
+          {
+            merged[i].equals(a1[lb1]);
+            i++;
+          }//for
+      }//else if 
     return merged;
   } // merge(Comparator<T>, T[], int, int, T[], int, int)
-
+  
   /**
    * "Randomly" permute an array in place.
    */
@@ -257,30 +269,6 @@ class Utils
     values[i] = values[j];
     values[j] = tmp;
   } // swap(T[], int, int)
-
-  public static void main(String[] args)
-  {
-    int[] a1 = {};
-    for (int i = 0; i < 20; i++)
-      {
-        int j = 2;
-        a1[i] = j;
-        j += 2;
-      }
-    int[] a2 = {};
-    for (int i = 0; i < 20; i++)
-      {
-        int j = 1;
-        a2[i] = j;
-        j += 2;
-      }
-
-    int[] result = new int[40];
-    //merge(Comparator<T> order, T[] a1, int lb1, int ub1,
-    // T[] a2, int lb2, int ub2, T[] merged, int lbm,
-    //int ubm)
-    // merge(StandardIntegerComparator.COMPARATOR, a1, 0, 19, a2, 0, 19, result, 0, 39);
-  }
 
   /**
   * Get the "sign" of a long.
